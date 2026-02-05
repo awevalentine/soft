@@ -1,11 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Welcome | Laura Met Retail</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Laura Met Retail</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { display: flex; height: 100vh; background-color: #f4f7f9; }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px; background-color: #2c3e50; color: white;
+            display: flex; flex-direction: column; padding: 20px;
+        }
+        .sidebar h2 { font-size: 18px; margin-bottom: 30px; color: #3498db; }
+        .nav-item { padding: 12px; cursor: pointer; border-radius: 4px; transition: 0.3s; margin-bottom: 5px; }
+        .nav-item:hover { background-color: #34495e; }
+        .active { background-color: #3498db !important; }
+
+        /* Main Content Area */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1:fr); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card h3 { font-size: 14px; color: #7f8c8d; margin-bottom: 10px; }
+        .card .value { font-size: 24px; font-weight: bold; color: #2c3e50; }
+
+        .btn-logout { 
+            margin-top: auto; padding: 12px; background: #e74c3c; 
+            text-align: center; color: white; text-decoration: none; border-radius: 4px;
+        }
+    </style>
 </head>
-<body style="font-family: Arial; padding: 50px; text-align: center;">
-    <h1>Welcome to your Dashboard!</h1>
-    <p>You have successfully logged in.</p>
-    <a href="index.html">Log out</a>
+<body>
+
+    <nav class="sidebar">
+        <h2>LAURA MET RETAIL</h2>
+        <div class="nav-item active">Overview</div>
+        <div class="nav-item">Inventory</div>
+        <div class="nav-item">Sales Orders</div>
+        <div class="nav-item">Settings</div>
+        <a href="index.html" class="btn-logout">Log Out</a>
+    </nav>
+
+    <main class="main-content">
+        <header>
+            <h1>Store Overview</h1>
+            <p id="welcomeUser" style="color: #7f8c8d;"></p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="card">
+                <h3>Daily Revenue</h3>
+                <div class="value">$1,240.00</div>
+            </div>
+            <div class="card">
+                <h3>Items in Stock</h3>
+                <div class="value">482</div>
+            </div>
+            <div class="card">
+                <h3>Pending Orders</h3>
+                <div class="value">12</div>
+            </div>
+        </section>
+
+        <section style="margin-top: 40px;">
+            <div class="card" style="min-height: 200px;">
+                <h3>Recent Activity</h3>
+                <p style="color: #95a5a6; font-style: italic;">No recent transactions found.</p>
+            </div>
+        </section>
+    </main>
+
 </body>
 </html>
